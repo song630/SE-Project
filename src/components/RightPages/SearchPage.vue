@@ -41,6 +41,7 @@ import ComboBox2 from '../small/ComboBox2'
 import AndOr from '../small/AndOr'
 import InputText from '../small/Text'
 import Button1 from '../small/Button1'
+import $ from 'jquery'
 export default {
   name: 'SearchPage',
   props: {
@@ -70,69 +71,24 @@ export default {
         this.$refs.input6.selected,
         this.$refs.input7.input_value
       ]
-      alert(toSubmit)
+      window.open(window.location.origin + '/#QueryResultPage')
+      $.ajax({
+        type: 'GET',
+        url: 'EnrollSystem/classQuery', /* call method classQuery() in back-end */
+        dataType: 'json', /* the type of data returned by server */
+        data: { toSubmit }, // send to server
+        success: function (result) { // result: data returned by server
+          sessionStorage.obj = JSON.stringify(result) // save data, or it will lose when another page is loaded
+          window.open(window.location.origin + '/QueryResultPage') // open a new page using router
+        },
+        error: function () {
+          alert('error')
+        }
+      })
     }
   }
 }
 </script>
-
 <style scoped>
-.page-content-area {
-  border: 1px solid #CCC;
-  background-color: rgb(255, 255, 255);
-  min-height: 100%;
-}
-.widget-box {
-  margin: 7px 7px 15px 15px;
-  border: 1px solid #CCC; /* apply to 4 borders */
-  text-align: left;
-  font-weight: lighter;
-}
-.widget-header {
-  background: #F7F7F7;
-  box-sizing: content-box;
-  position: relative;
-  min-height: 38px;
-  color: #669fc7;
-  border-bottom: 1px solid #DDD;
-  padding-left: 12px;
-  padding-right: 12px;
-}
-.widget-header>.widget-title {
-  line-height: 36px;
-  font-size: 18px;
-  font-weight: lighter;
-  padding: 0;
-  margin: 0;
-  display: inline;
-  font-family: "Microsoft JhengHei Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-.widget-body { /* w/o this, the line on the right will be incomplete */
-  padding-left: 6px;
-  padding-right: 12px;
-}
-.widget-content {
-  background-color: #FFF;
-  min-height: 100%;
-  padding-bottom: 0;
-  font-family: "Microsoft JhengHei Light", "Helvetica Neue", Helvetica, sans-serif;
-  font-size: 13px;
-  color: #393939;
-  line-height: 1.5;
-  padding-left: 15px;
-  padding-right: 15px;
-  /* will apply to all inner elements */
-}
-.widget-instructions {
-  font-size: 22px;
-  font-weight: lighter;
-  color: #478fca!important;
-}
-div.widget-body hr {
-  /* inherit selector */
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: 0;
-  border-top: 1px solid #eee;
-}
+@import "../../css/page.css";
 </style>

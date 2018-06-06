@@ -28,10 +28,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
-$(function () {
-  alert(123)
-})
 export default {
   name: 'HelloWorld',
   data () {
