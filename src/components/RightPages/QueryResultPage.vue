@@ -22,7 +22,7 @@
                 <th>上课地点</th>
                 <th>选课</th>
               </tr>
-              <tr v-for="item in queryResults" :key="item.index">
+              <tr v-for="item in queryResults" :key="item">
                 <td>{{ item.index.teacherName }}</td>
                 <td>{{ item.index.classID }}</td>
                 <td><a :href=item.index.courseInfoLink>{{ item.index.courseTitle }}</a></td>
@@ -104,6 +104,7 @@ tr th {
   background: linear-gradient(#eeeeee, #DDDDDD);
   border-bottom-width: 5px;
   border-left: 1px solid #ddd;
+  alignment: center;
 }
 tr td {
   font-family: Microsoft YaHei, Helvetica, sans-serif;

@@ -62,7 +62,7 @@ export default {
       alert(param)
     },
     submit () {
-      var toSubmit = [
+      let toSubmit = [
         this.$refs.input1.selected,
         this.$refs.input2.selected,
         this.$refs.input3.input_value,
@@ -79,7 +79,8 @@ export default {
         data: { toSubmit }, // send to server
         success: function (result) { // result: data returned by server
           sessionStorage.obj = JSON.stringify(result) // save data, or it will lose when another page is loaded
-          window.open(window.location.origin + '/QueryResultPage') // open a new page using router
+          window.open(window.location.origin + '/QueryResultPage', '_self') // open a new page using router
+          // _self: 在当前页面加载新页面 不打开信标签页
         },
         error: function () {
           alert('error')

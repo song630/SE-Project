@@ -1,0 +1,15 @@
+.form-group {
+  margin-bottom: 15px;
+}
+label {
+  font-weight: normal;
+  font-family:"Microsoft YaHei", "Microsoft JhengHei Light", Helvetica, sans-serif;
+}
+.combo-box {
+  width: 150px;
+  height: 30px;
+  max-width: 100%;
+  padding: 4px 4px;
+  border: 1px solid #d5d5d5;
+  margin-left: 20px; /* away from label */
+}
