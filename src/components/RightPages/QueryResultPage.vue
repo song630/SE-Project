@@ -22,18 +22,18 @@
                 <th>上课地点</th>
                 <th>选课</th>
               </tr>
-              <tr v-for="query_result in query_results" :key="query_result.entry">
-                <!-- :key相当于是索引的作用，提高循环性能 -->
-                <td>{{ query_result.teacherName }}</td>
-                <td>{{ query_result.classID }}</td>
-                <td><a ref="query_result.courseInfoLink">{{ query_result.courseTitle }}</a></td>
-                <td>{{ query_result.courseType }}</td>
-                <td>{{ query_result.credits }}</td>
-                <td>{{ query_result.sem }}</td>
-                <td>{{ query_result.classTime }}</td>
-                <td>{{ query_result.classLocation }}</td>
-                <td><a ref="query_result.enroll">转入选课</a></td>
+              <tr v-for="item in queryResults" :key="item.index">
+                <td>{{ item.index.teacherName }}</td>
+                <td>{{ item.index.classID }}</td>
+                <td><a :href=item.index.courseInfoLink>{{ item.index.courseTitle }}</a></td>
+                <td>{{ item.index.courseType }}</td>
+                <td>{{ item.index.credits }}</td>
+                <td>{{ item.index.sem }}</td>
+                <td>{{ item.index.classTime }}</td>
+                <td>{{ item.index.classLocation }}</td>
+                <td><a :href=item.index.enroll>转入选课</a></td>
               </tr>
+              <!-- :key相当于是索引的作用，提高循环性能 -->
             </div>
           </div>
         </div>
@@ -45,37 +45,41 @@
 <script>
 export default {
   name: 'QueryResultPage',
+  data () { // v-for cannot work if put 'queryResults' in props
+    return {
+      queryResults: [
+        {
+          index: {
+            teacherName: 'LYS',
+            classID: 21120261,
+            courseTitle: '软件工程',
+            courseInfoLink: 'http://jwbinfosys.zju.edu.cn/html_kc/22188080.html',
+            courseType: '专业必修课',
+            credits: 2.0,
+            sem: 'Spring',
+            classTime: 'Mon-1,2',
+            classLocation: '曹光彪-201',
+            enroll: 'http://jwbinfosys.zju.edu.cn/xscxbm.aspx'
+          }
+        },
+        {
+          index: {
+            teacherName: 'LYS',
+            classID: 21120222,
+            courseTitle: '软件工程',
+            courseInfoLink: 'http://jwbinfosys.zju.edu.cn/html_kc/22188082.html',
+            courseType: '专业选修课',
+            credits: 3.0,
+            sem: 'Summer',
+            classTime: 'Feb-1,2',
+            classLocation: '曹光彪-301',
+            enroll: 'http://jwbinfosys.zju.edu.cn/xscxbm.aspx'
+          }
+        }
+      ]
+    }
+  },
   props: {
-    query_results: [
-      {
-        entry: {
-          teacherName: '刘玉生',
-          classID: 21120261,
-          courseTitle: '软件工程',
-          courseInfoLink: 'http://jwbinfosys.zju.edu.cn/html_kc/22188080.html',
-          courseType: 'public',
-          credits: 2.0,
-          sem: 'Spring',
-          classTime: 'Mon-1,2',
-          classLocation: 'CGBBuilding-201',
-          enroll: 'http://jwbinfosys.zju.edu.cn/xscxbm.aspx'
-        }
-      },
-      {
-        entry: {
-          teacherName: '刘玉生',
-          classID: 21120262,
-          courseTitle: '软件工程',
-          courseInfoLink: 'http://jwbinfosys.zju.edu.cn/html_kc/22188081.html',
-          courseType: 'public',
-          credits: 2.0,
-          sem: 'Summer',
-          classTime: 'Mon-3,4',
-          classLocation: 'CGBBuilding-301',
-          enroll: 'http://jwbinfosys.zju.edu.cn/xscxbm.aspx'
-        }
-      }
-    ]
   }
 }
 </script>
@@ -100,5 +104,24 @@ tr th {
   background: linear-gradient(#eeeeee, #DDDDDD);
   border-bottom-width: 5px;
   border-left: 1px solid #ddd;
+}
+tr td {
+  font-family: Microsoft YaHei, Helvetica, sans-serif;
+  font-weight: normal;
+  padding: 5px 20px 5px 20px;
+  border: 0.005em solid #ddd;
+}
+a:link {
+  color: #669fc7;
+  text-decoration: none; /* remove underline */
+}
+a:visited {
+  color: #478fca;
+  text-decoration: none;
+}
+a:hover {
+  color: #478fca;
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

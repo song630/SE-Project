@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <router-link to="/">HelloWorld</router-link>
-    <router-link to="/SearchPage">SearchPage</router-link>
+    <router-link to="/"><div class="router-link">HelloWorld</div></router-link>
+    <router-link to="/SearchPage"><div class="router-link">SearchPage</div></router-link>
     <router-view/>
   </div>
 </template>
@@ -20,5 +20,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.router-link {
+  margin-left: 0;
+  alignment: left;
 }
 </style>
