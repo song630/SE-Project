@@ -1,0 +1,39 @@
+.table-style-1 {
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: transparent;
+  vertical-align: middle;
+}
+tr th {
+  font-family: Microsoft YaHei, Helvetica, sans-serif;
+  font-weight: normal;
+  font-size: 15px;
+  padding: 5px 20px 5px 20px;
+  background: linear-gradient(#eeeeee, #DDDDDD);
+  border-bottom-width: 5px;
+  border-left: 1px solid #ddd;
+  alignment: center;
+}
+tr td {
+  font-family: Microsoft YaHei, Helvetica, sans-serif;
+  font-weight: normal;
+  padding: 5px 20px 5px 20px;
+  border: 0.005em solid #ddd;
+}
+a:link {
+  color: #669fc7;
+  text-decoration: none; /* remove underline */
+}
+a:visited {
+  color: #478fca;
+  text-decoration: none;
+}
+a:hover {
+  color: #478fca;
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <router-view/>
+    <!-- router-link to=/ 表示就显示在当前页面上 -->
     <router-link to="/"><div class="router-link">HelloWorld</div></router-link>
     <router-link to="/SearchPage"><div class="router-link">SearchPage</div></router-link>
     <router-link to="/ProjectPage"><div class="router-link">ProjectPage</div></router-link>
+    <!--
+    <router-link to="/ProjectPage"><div class="router-link">PlanProjectPage</div></router-link>
+    -->
   </div>
 </template>
 

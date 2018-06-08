@@ -17,8 +17,9 @@
 
             <form class="form">
               <ComboBox3 ref="input8"></ComboBox3>
-              <ComboBox4 ref="input9"></ComboBox4>
-              <ComboBox5 ref="input10"></ComboBox5>
+              <ComboBox4 ref="input9" @notifyParent="departmentSelection"></ComboBox4>
+              <ComboBox5 ref="input10" :which="parseInt(which_department)"></ComboBox5>
+              <ComboBox6 ref="input11"></ComboBox6>
               <!-- 子组件4把选择的学院的索引发送给父组件 父组件再发送给子组件5 -->
               <hr>
             </form>
@@ -27,6 +28,8 @@
         </div>
       </div>
     </div>
+    <router-link to="/ProjectPage/PlanProjectPage"><div class="router-link">PlanProjectPage</div></router-link>
+    <router-view/>
   </div>
 </template>
 
@@ -34,16 +37,43 @@
 import ComboBox3 from '../small/ComboBox3'
 import ComboBox4 from '../small/ComboBox4'
 import ComboBox5 from '../small/ComboBox5'
+import ComboBox6 from '../small/ComboBox6'
 import Button1 from '../small/Button1'
+import $ from 'jquery'
 export default {
   name: 'ProjectPage',
-  components: { ComboBox3, ComboBox4, ComboBox5, Button1 },
+  components: { ComboBox3, ComboBox4, ComboBox5, ComboBox6, Button1 },
   data () {
-    return { msg: '搜索' }
+    return {
+      msg: '搜索',
+      which_department: '0'
+    }
   },
   methods: {
+    departmentSelection (param) {
+      console.log('param:', param)
+      this.which_department = param
+    },
     submit () {
-
+      let toSubmit = [
+        this.$refs.input8.selected,
+        this.$refs.input9.selected,
+        this.$refs.input10.selected,
+        this.$refs.input11.selected
+      ]
+      $.ajax({
+        type: 'GET',
+        url: 'EnrollSystem/projectQuery',
+        dataType: 'json',
+        data: { toSubmit },
+        success: function (result) {
+          sessionStorage.obj = JSON.stringify(result) // save data
+          window.open(window.location.origin + '/ProjectResultPage', '_self')
+        },
+        error: function () {
+          alert('error')
+        }
+      })
     }
   }
 }

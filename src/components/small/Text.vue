@@ -8,9 +8,11 @@
 <script>
 export default {
   name: 'InputText',
+  data () {
+    return { input_value: '' }
+  },
   props: {
-    msg: { type: String, default: '' },
-    input_value: { type: String, default: '' }
+    msg: { type: String, default: '' }
   }
 }
 </script>

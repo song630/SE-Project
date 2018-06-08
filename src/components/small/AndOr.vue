@@ -18,8 +18,8 @@
 <script>
 export default {
   name: 'AndOr',
-  props: {
-    picked: null
+  data () {
+    return { picked: null }
   },
   methods: {
     notifyParent () {

@@ -1,7 +1,7 @@
 <template> <!-- 学院 -->
   <div class="form-group">
-    <label class="label-combo-box" for="combo-box1" @change="sendViaBus">学院</label>
-    <select class="combo-box" id="combo-box1" v-model="selected">
+    <label class="label-combo-box" for="combo-box1">学院</label>
+    <select class="combo-box" id="combo-box1" v-model="selected" @change="notifyParent">
       <option selected>-----</option>
       <option v-for="(item, index) in departments" :value="index" :key="item">
         {{ item }}
@@ -11,11 +11,12 @@
 </template>
 
 <script>
-import bus from '../../assets/eventBus'
 export default {
   name: 'ComboBox4',
+  props: {},
   data () {
     return {
+      selected: '',
       departments: [ // 27 items
         '经济学院', '法学院', '教育学院', '人文学院', '外语学院', '理学院',
         '生命科学学院', '机械与能源工程学院', '材料与化学工程学院', '电气工程学院',
@@ -27,10 +28,13 @@ export default {
       ]
     }
   },
-  props: { selected: { type: Number, default: 0 } },
+  mounted: function () {
+    console.log('mounted')
+  },
   methods: {
-    sendViaBus: function () {
-      bus.$emit('departmentSelection', this.selected)
+    notifyParent () {
+      console.log('combobox4.selected:', this.selected)
+      this.$emit('notifyParent', this.selected)
     }
   }
 }

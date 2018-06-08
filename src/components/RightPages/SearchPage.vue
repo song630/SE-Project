@@ -16,7 +16,7 @@
             <hr>
 
             <form class="form">
-              <ComboBox1 @notifyParent="fromChild" ref="input1"></ComboBox1>
+              <ComboBox1 ref="input1"></ComboBox1>
               <ComboBox2 @notifyParent="fromChild" ref="input2"></ComboBox2>
               <InputText :msg="msg[0]" ref="input3"></InputText>
               <hr>

@@ -19,7 +19,9 @@
 <script>
 export default {
   name: 'ComboBox3',
-  props: { selected: null }
+  data () {
+    return { selected: '' }
+  }
 }
 </script>
 

@@ -1,0 +1,40 @@
+.check-box {
+  width: 20px;
+  margin: 10px 5px;
+  position: relative;
+}
+.check-box label {
+  cursor: pointer;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0;
+  background: #eee;
+  border:1px solid #ddd;
+}
+.check-box label:after {
+  opacity: 0.2;
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 5px;
+  background: transparent;
+  top: 5px;
+  left: 4px;
+  border: 3px solid #333;
+  border-top: none;
+  border-right: none;
+
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+.check-box label:hover::after {
+  opacity: 0.5;
+}
+.check-box input[type=checkbox]:checked + label:after {
+  opacity: 1;
+}

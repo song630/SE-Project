@@ -18,11 +18,12 @@
 <script>
 export default {
   name: 'ComboBox2',
-  props: {
-    selected: null
+  data () {
+    return { selected: '' }
   },
   methods: {
     notifyParent () {
+      console.log(this.selected)
       this.$emit('notifyParent', this.selected)
     }
   }
