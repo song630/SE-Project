@@ -31,7 +31,9 @@
                 <td>{{ item.index.sem }}</td>
                 <td>{{ item.index.classTime }}</td>
                 <td>{{ item.index.classLocation }}</td>
-                <td><a :href=item.index.enroll>转入选课</a></td>
+                <td>
+                  <button class="enroll-button" @click="enrollRequest(item.index)">转入选课</button>
+                </td>
               </tr>
               <!-- :key相当于是索引的作用，提高循环性能 -->
             </div>
@@ -43,6 +45,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 export default {
   name: 'QueryResultPage',
   data () { // v-for cannot work if put 'queryResults' in props
@@ -58,8 +61,7 @@ export default {
             credits: 2.0,
             sem: 'Spring',
             classTime: 'Mon-1,2',
-            classLocation: '曹光彪-201',
-            enroll: 'http://jwbinfosys.zju.edu.cn/xscxbm.aspx'
+            classLocation: '曹光彪-201'
           }
         },
         {
@@ -72,18 +74,50 @@ export default {
             credits: 3.0,
             sem: 'Summer',
             classTime: 'Feb-1,2',
-            classLocation: '曹光彪-301',
-            enroll: 'http://jwbinfosys.zju.edu.cn/xscxbm.aspx'
+            classLocation: '曹光彪-301'
           }
         }
       ]
     }
   },
-  props: {}
+  props: {},
+  methods: {
+    enrollRequest (info) { // info: item.index, 包含课程的名称ID等信息
+      alert('enroll!')
+      $.ajax({
+        type: 'GET',
+        url: 'EnrollSystem/classEnroll',
+        dataType: 'json',
+        data: { info },
+        success: function (result) {
+          sessionStorage.obj = JSON.stringify(result)
+          window.open(window.location.origin + '/QueryResultPage/EnrollPage', '_self')
+        },
+        error: function () {
+          alert('error')
+        }
+      })
+    }
+  }
 }
 </script>
 
 <style scoped>
 @import "../../css/page.css";
 @import "../../css/table.css";
+.enroll-button {
+  font-weight: normal;
+  cursor: pointer;
+  background: transparent;
+  color: #669fc7;
+  padding: 10px 25px 10px 25px;
+  border: solid transparent 1px;
+  text-decoration: none;
+  outline: none; /* 去掉按钮选中时候的蓝色边框 */
+}
+.enroll-button:hover {
+  border: solid transparent 1px;
+  color: #478fca;
+}
+
 </style>

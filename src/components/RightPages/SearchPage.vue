@@ -80,7 +80,7 @@ export default {
         success: function (result) { // result: data returned by server
           sessionStorage.obj = JSON.stringify(result) // save data, or it will lose when another page is loaded
           window.open(window.location.origin + '/QueryResultPage', '_self') // open a new page using router
-          // _self: 在当前页面加载新页面 不打开信标签页
+          // _self: 在当前页面加载新页面 不打开新标签页
         },
         error: function () {
           alert('error')

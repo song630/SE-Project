@@ -26,10 +26,15 @@
             <Button1 :msg="msg" @submitSearch="submit"></Button1>
           </div>
         </div>
-      </div>
-    </div>
+      </div><!-- widget-box -->
+      <template v-if="ok">
+        <PlanProjectPage></PlanProjectPage>
+      </template>
+    </div><!-- page-content-area -->
+    <!--
     <router-link to="/ProjectPage/PlanProjectPage"><div class="router-link">PlanProjectPage</div></router-link>
     <router-view/>
+    -->
   </div>
 </template>
 
@@ -39,14 +44,16 @@ import ComboBox4 from '../small/ComboBox4'
 import ComboBox5 from '../small/ComboBox5'
 import ComboBox6 from '../small/ComboBox6'
 import Button1 from '../small/Button1'
+import PlanProjectPage from './PlanProjectPage'
 import $ from 'jquery'
 export default {
   name: 'ProjectPage',
-  components: { ComboBox3, ComboBox4, ComboBox5, ComboBox6, Button1 },
+  components: { ComboBox3, ComboBox4, ComboBox5, ComboBox6, Button1, PlanProjectPage },
   data () {
     return {
       msg: '搜索',
-      which_department: '0'
+      which_department: '0',
+      ok: false
     }
   },
   methods: {
@@ -55,6 +62,7 @@ export default {
       this.which_department = param
     },
     submit () {
+      this.ok = true
       let toSubmit = [
         this.$refs.input8.selected,
         this.$refs.input9.selected,

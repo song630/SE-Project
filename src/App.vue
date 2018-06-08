@@ -2,9 +2,9 @@
   <div id="app">
     <router-view/>
     <!-- router-link to=/ 表示就显示在当前页面上 -->
-    <router-link to="/"><div class="router-link">HelloWorld</div></router-link>
-    <router-link to="/SearchPage"><div class="router-link">SearchPage</div></router-link>
-    <router-link to="/ProjectPage"><div class="router-link">ProjectPage</div></router-link>
+    <router-link to="/" class="router-link">主页</router-link>
+    <router-link to="/SearchPage" class="router-link">课程查询页面</router-link>
+    <router-link to="/ProjectPage" class="router-link">培养方案页面</router-link>
     <!--
     <router-link to="/ProjectPage"><div class="router-link">PlanProjectPage</div></router-link>
     -->
@@ -27,7 +27,22 @@ export default {
   margin-top: 60px;
 }
 .router-link {
-  margin-left: 0;
-  alignment: left;
+  float: left;
+  font-weight: normal;
+  font-family:"Microsoft YaHei", "Microsoft JhengHei Light", Helvetica, sans-serif;
+  cursor: pointer;
+  background: #abbac3;
+  color: #ffffff;
+  font-size: 16px;
+  padding: 12px 30px 12px 30px;
+  border: solid #abbac3 1px;
+  text-decoration: none;
+  margin: 5px 2px 10px 2px;
+}
+.router-link:hover {
+  color: #ffffff;
+  background: #888888;
+  border: solid #888888 1px;
+  text-decoration: none;
 }
 </style>

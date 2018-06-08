@@ -1,6 +1,8 @@
 <template>
+  <!--
   <div class="page-content">
     <div class="page-content-area">
+    -->
       <div class="widget-box">
         <div class="widget-header">
           <h4 class="widget-title">
@@ -39,8 +41,9 @@
           </div>
         </div>
       </div>
+<!--
     </div>
-  </div>
+  </div>-->
 </template>
 
 <script>

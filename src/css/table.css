@@ -24,6 +24,9 @@ tr td {
   padding: 5px 20px 5px 20px;
   border: 0.005em solid #ddd;
 }
+tr:hover {
+  background-color: #eeeeee;
+}
 a:link {
   color: #669fc7;
   text-decoration: none; /* remove underline */
