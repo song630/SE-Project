@@ -83,13 +83,16 @@ export default {
   props: {},
   methods: {
     enrollRequest (info) { // info: item.index, 包含课程的名称ID等信息
-      alert('enroll!')
+      window.open(window.location.origin + '/#EnrollPage')
       $.ajax({
         type: 'GET',
         url: 'EnrollSystem/classEnroll',
         dataType: 'json',
         data: { info },
         success: function (result) {
+          // 发起转入选课的请求后要返回两类结果
+          // 1.course的metadata信息
+          // 2.所有可选的class列表
           sessionStorage.obj = JSON.stringify(result)
           window.open(window.location.origin + '/QueryResultPage/EnrollPage', '_self')
         },
