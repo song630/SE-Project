@@ -12,10 +12,28 @@
           <div class="widget-content">
 
             <form class="form">
-              <!-- 加入自定义组件 -->
+              <ReadonlyText :msg="msg[1]" :input_value="courseID"></ReadonlyText>
+              <ReadonlyText :msg="msg[2]" :input_value="department"></ReadonlyText>
+              <ReadonlyText :msg="msg[3]" :input_value="credits"></ReadonlyText>
+              <ReadonlyText :msg="msg[4]" :input_value="prerequisite"></ReadonlyText>
+              <ReadonlyText :msg="msg[5]" :input_value="hours"></ReadonlyText>
+              <div class="form-group">
+                <label class="label-text" for="label-text6">课程简介</label>
+                <div>
+                <textarea class="text-area" id="label-text6" maxlength="50" readonly v-model="introduction">
+                </textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label-text" for="label-text7">教学计划</label>
+                <div>
+                <textarea class="text-area" id="label-text7" maxlength="50" readonly v-model="plan">
+                </textarea>
+                </div>
+              </div>
               <hr>
             </form>
-            <Button1 :msg="msg" @submitSearch="submit"></Button1>
+            <Button1 :msg="msg[0]" @submitSearch="close"></Button1>
           </div>
         </div>
       </div><!-- widget-box -->
@@ -25,11 +43,19 @@
 
 <script>
 import Button1 from '../small/Button1'
+import ReadonlyText from '../small/ReadonlyText'
 export default {
   name: 'CourseInfoPage',
-  components: { Button1 },
+  components: { Button1, ReadonlyText },
+  methods: {
+    close () {
+      window.opener = null
+      window.close()
+    }
+  },
   data () {
     return {
+      msg: ['关闭', '课程代码', '学院', '学分', '预修要求', '学时'],
       courseID: 21191820,
       department: '计算机科学与技术学院',
       credits: 3.5,
@@ -65,4 +91,20 @@ export default {
 
 <style scoped>
 @import "../../css/page.css";
+.label-text {
+  font-weight: normal;
+  font-family:"Microsoft YaHei", "Microsoft JhengHei Light", Helvetica, sans-serif;
+}
+.text-area {
+  border: 2px solid #d5d5d5;
+  /* overflow-y:auto; */
+  font-family:"Microsoft YaHei", "Microsoft JhengHei Light", Helvetica, sans-serif;
+  color: #555555;
+  padding: 15px;
+  width: 450px;
+  height: 100px;
+}
+.text-area:hover {
+  border: 2px solid #aaaaaa;
+}
 </style>

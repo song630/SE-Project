@@ -83,6 +83,7 @@ export default {
   props: {},
   methods: {
     submit () {
+      console.log('选定的课程：', this.ticked)
       let toSubmit = this.ticked
       $.ajax({
         type: 'POST',

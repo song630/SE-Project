@@ -5,6 +5,7 @@
     <router-link to="/" class="router-link">主页</router-link>
     <router-link to="/SearchPage" class="router-link">课程查询页面</router-link>
     <router-link to="/ProjectPage" class="router-link">培养方案页面</router-link>
+    <router-link to="/SetDatePage" class="router-link">设置选课时间页面</router-link>
     <!--
     <router-link to="/ProjectPage"><div class="router-link">PlanProjectPage</div></router-link>
     -->

@@ -25,7 +25,10 @@
               <tr v-for="item in queryResults" :key="item">
                 <td>{{ item.index.teacherName }}</td>
                 <td>{{ item.index.classID }}</td>
-                <td><a :href=item.index.courseInfoLink>{{ item.index.courseTitle }}</a></td>
+                <td><button class="enroll-button" @click="courseInfoRequest(item.index)">
+                  {{ item.index.courseTitle }}
+                </button>
+                </td>
                 <td>{{ item.index.courseType }}</td>
                 <td>{{ item.index.credits }}</td>
                 <td>{{ item.index.sem }}</td>
@@ -100,6 +103,9 @@ export default {
           alert('error')
         }
       })
+    },
+    courseInfoRequest (info) { // info: item.index, 包含课程的名称ID等信息
+      window.open(window.location.origin + '/#CourseInfoPage')
     }
   }
 }
