@@ -28,6 +28,7 @@
               <hr>
             </form>
             <Button1 :msg="msg[1]" @submitSearch="submit"></Button1>
+            <Pagination></Pagination>
           </div>
         </div>
       </div>
@@ -41,6 +42,7 @@ import ComboBox2 from '../small/ComboBox2'
 import AndOr from '../small/AndOr'
 import InputText from '../small/Text'
 import Button1 from '../small/Button1'
+import Pagination from '../small/Pagination'
 import $ from 'jquery'
 export default {
   name: 'SearchPage',
@@ -50,13 +52,7 @@ export default {
   data () {
     return { msg: ['输入关键字', '搜索'] }
   },
-  components: { /* parent component uses child component */
-    ComboBox1,
-    ComboBox2,
-    AndOr,
-    InputText,
-    Button1
-  },
+  components: { ComboBox1, ComboBox2, AndOr, InputText, Button1, Pagination },
   methods: {
     fromChild (param) {
       alert(param)

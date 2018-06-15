@@ -36,6 +36,7 @@ export default {
   margin-bottom: 20px;
   padding: 5px 4px 6px;
   font-size: 14px;
+  width: 156px;
 }
 .input-text:hover {
   border: 1px solid #aaaaaa;

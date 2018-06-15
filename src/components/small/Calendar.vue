@@ -7,19 +7,19 @@
     <div class="calendar-left">
       <table class="calendar-table">
         <thead>
-          <tr>
-            <th class="pre" @click="move_before(0)"></th>
-            <th colspan="5" align="middle" class="calendar-title">{{ months[cur_month[0]] + ' ' + cur_year[0] }}</th>
-            <th class="next" @click="move_after(0)"></th>
-          </tr>
-          <tr class="seven-days">
-            <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
-          </tr>
+        <tr>
+          <th class="pre" @click="move_before(0)"></th>
+          <th colspan="5" align="middle" class="calendar-title">{{ months[cur_month[0]] + ' ' + cur_year[0] }}</th>
+          <th class="next" @click="move_after(0)"></th>
+        </tr>
+        <tr class="seven-days">
+          <th>Su</th><th>Mo</th><th>Tu</th><th>We</th><th>Th</th><th>Fr</th><th>Sa</th>
+        </tr>
         </thead>
         <tbody>
-          <tr v-for="(item1, index1) in Array(6)" :key="index1">
-            <th v-for="(item2, index2) in Array(7)" :key="index2" align="middle" @click="select0(index1, index2)">{{ entries[0][index1][index2] }}</th>
-          </tr>
+        <tr v-for="(item1, index1) in Array(6)" :key="index1">
+          <th v-for="(item2, index2) in Array(7)" :key="index2" align="middle" @click="select0(index1, index2)">{{ entries[0][index1][index2] }}</th>
+        </tr>
         </tbody>
       </table>
     </div>
@@ -56,8 +56,9 @@ export default {
       msg: ['起始日期', '结束日期'],
       input: ['aaa', 'yyy'],
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-      cur_month: [5, 6], // months的下标
+      cur_month: [5, 5], // months的下标
       cur_year: [2018, 2018],
+      cur_day: [1, 1],
       entries: [ // 初始化为2018年6月
         [[0, 0, 0, 0, 0, 1, 2],
           [3, 4, 5, 6, 7, 8, 9],
@@ -79,12 +80,14 @@ export default {
       if (this.entries[0][param1][param2] === 0) return
       this.input[0] = this.cur_year[0] + '年' + (this.cur_month[0] + 1) + '月' + this.entries[0][param1][param2] + '日'
       // 父组件给子组件动态传值 调用子组件函数的同时完成传值
+      this.cur_day[0] = this.entries[0][param1][param2]
       this.$refs.r1.getNewValue(this.input[0])
       // console.log(this.input[0])
     },
     select1 (param1, param2) { // 选中了一个日期
       if (this.entries[1][param1][param2] === 0) return
       this.input[1] = this.cur_year[1] + '年' + (this.cur_month[1] + 1) + '月' + this.entries[1][param1][param2] + '日'
+      this.cur_day[1] = this.entries[1][param1][param2]
       this.$refs.r2.getNewValue(this.input[1])
     },
     move_before (which) { // 前移一个月
@@ -107,6 +110,7 @@ export default {
           }
         }
       }
+      this.$forceUpdate() // 层次复杂时不会自动渲染更新
     },
     move_after (which) { // 后移一个月
       if (this.cur_month[which] === 11) {
@@ -126,6 +130,7 @@ export default {
           }
         }
       }
+      this.$forceUpdate()
     },
     get_days (year, month) { // 某年某月共有多少天
       let daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -194,8 +199,5 @@ tr.seven-days th {
 }
 thead tr th {
   font-weight: bold;
-}
-tbody tr th:visited {
-  background-color: #2283c5; /* 点击后变为蓝色 */
 }
 </style>

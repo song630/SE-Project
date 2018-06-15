@@ -8,6 +8,8 @@ import PlanProjectPage from '@/components/RightPages/PlanProjectPage' // 制定�
 import EnrollPage from '@/components/RightPages/EnrollPage' // 选课页面
 import CourseInfoPage from '@/components/RightPages/CourseInfoPage' // 课程信息显示页面
 import SetDatePage from '@/components/RightPages/SetDatePage' // 管理员设置初选补选退选时间页面
+import StudentListPage from '@/components/RightPages/StudentListPage' // 管理员查看选某门课所有学生列表的页面
+import QueryStudentPage from '@/components/RightPages/QueryStudentPage' // 管理员查找学生的页面
 
 Vue.use(Router)
 
@@ -20,6 +22,8 @@ export default new Router({
     { path: '/ProjectPage/PlanProjectPage', name: 'PlanProjectPage', component: PlanProjectPage },
     { path: '/EnrollPage', name: 'EnrollPage', component: EnrollPage },
     { path: '/CourseInfoPage', name: 'CourseInfoPage', component: CourseInfoPage },
-    { path: '/SetDatePage', name: 'SetDatePage', component: SetDatePage }
+    { path: '/SetDatePage', name: 'SetDatePage', component: SetDatePage },
+    { path: '/StudentListPage', name: 'StudentListPage', component: StudentListPage },
+    { path: '/QueryStudentPage', name: 'QueryStudentPage', component: QueryStudentPage }
   ]
 })

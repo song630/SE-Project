@@ -1,0 +1,26 @@
+.delete-button, .accept-button, .reject-button {
+  font-family:"Microsoft YaHei", "Microsoft JhengHei Light", Helvetica, sans-serif;
+  cursor: pointer;
+  color: #FFFFFF;
+  text-shadow: #333333;
+  border: solid transparent 1px;
+  padding: 5px 10px 5px 10px;
+}
+.delete-button {
+  background-color: #b94045;
+}
+.reject-button {
+  background-color: #dd8735;
+}
+.accept-button {
+  background-color: #4ec9d6;
+}
+.delete-button:hover {
+  background-color: #b91f30;
+}
+.reject-button:hover {
+  background-color: #dd690d;
+}
+.accept-button:hover {
+  background-color: #1fb1d6;
+}

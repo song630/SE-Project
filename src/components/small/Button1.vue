@@ -19,6 +19,11 @@ export default {
 </script>
 
 <style scoped>
+.button-div {
+  margin: 10px 30px 10px 30px;
+  width: 96px;
+  height: 42px;
+}
 .submit-button {
   font-weight: normal;
   font-family:"Microsoft YaHei", "Microsoft JhengHei Light", Helvetica, sans-serif;
@@ -34,7 +39,7 @@ export default {
   box-shadow: inset 0 1px 0 0 #9acc85;
   color: #ffffff;
   font-size: 16px;
-  padding: 12px 30px 12px 30px;
+  padding: 10px 15px 10px 15px;
   border: solid #FFF 1px;
   text-decoration: none;
   margin-bottom: 15px;

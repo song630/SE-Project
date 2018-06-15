@@ -15,10 +15,21 @@
             </h3>
             <hr>
             <form class="form">
-              <!-- add components here -->
-              <Calendar></Calendar>
+              <div class="separate-header">设置初选时间</div>
+              <Calendar ref="c1"></Calendar>
             </form>
-            <!-- add button here -->
+            <hr>
+            <form class="form">
+              <div class="separate-header">设置补选时间</div>
+              <Calendar ref="c2"></Calendar>
+            </form>
+            <hr>
+            <form class="form">
+              <div class="separate-header">设置退课时间</div>
+              <Calendar ref="c3"></Calendar>
+            </form>
+            <hr>
+            <Button1 :msg="msg" @submitSearch="submit"></Button1>
           </div>
         </div>
       </div>
@@ -31,10 +42,50 @@ import Calendar from '../small/Calendar'
 import Button1 from '../small/Button1'
 export default {
   name: 'SetDatePage',
-  components: { Calendar, Button1 }
+  components: { Calendar, Button1 },
+  data () {
+    return {
+      msg: '提交'
+    }
+  },
+  methods: {
+    submit () {
+      let toSubmit = [
+        [this.$refs.c1.cur_year,
+          this.$refs.c1.cur_month,
+          this.$refs.c1.cur_day],
+        [this.$refs.c2.cur_year,
+          this.$refs.c2.cur_month,
+          this.$refs.c2.cur_day],
+        [this.$refs.c3.cur_year,
+          this.$refs.c3.cur_month,
+          this.$refs.c3.cur_day]
+      ]
+      let flag = [false, false, false]
+      for (let i = 0; i <= 2; i++) {
+        flag[i] = (toSubmit[i][0][0] > toSubmit[i][0][1] ? false : (toSubmit[i][1][0] > toSubmit[i][1][1] ? false : (toSubmit[i][2][0] < toSubmit[i][2][1])))
+      }
+      console.log('flag:', flag)
+      if (flag[0] === false || flag[1] === false || flag[2] === false) {
+        alert('Invalid input.')
+        return
+      }
+      console.log('to submit:', toSubmit)
+    }
+  }
 }
 </script>
 
 <style scoped>
 @import "../../css/page.css";
+.separate-header {
+  background-color: #307ecc;
+  color: #FFF;
+  font-size: 14px;
+  line-height: 38px;
+  padding-left: 12px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  width: 324px;
+}
 </style>

@@ -5,7 +5,9 @@
     <router-link to="/" class="router-link">主页</router-link>
     <router-link to="/SearchPage" class="router-link">课程查询页面</router-link>
     <router-link to="/ProjectPage" class="router-link">培养方案页面</router-link>
-    <router-link to="/SetDatePage" class="router-link">设置选课时间页面</router-link>
+    <router-link to="/SetDatePage" class="router-link">设置选课时间</router-link>
+    <router-link to="/StudentListPage" class="router-link">学生列表</router-link>
+    <router-link to="/QueryStudentPage" class="router-link">查找学生</router-link>
     <!--
     <router-link to="/ProjectPage"><div class="router-link">PlanProjectPage</div></router-link>
     -->
@@ -35,7 +37,7 @@ export default {
   background: #abbac3;
   color: #ffffff;
   font-size: 16px;
-  padding: 12px 30px 12px 30px;
+  padding: 10px 20px 10px 20px;
   border: solid #abbac3 1px;
   text-decoration: none;
   margin: 5px 2px 10px 2px;
