@@ -19,22 +19,15 @@
               <ComboBox3 ref="input8"></ComboBox3>
               <ComboBox4 ref="input9" @notifyParent="departmentSelection"></ComboBox4>
               <ComboBox5 ref="input10" :which="parseInt(which_department)"></ComboBox5>
-              <ComboBox6 ref="input11"></ComboBox6>
+              <ComboBox6 ref="input11" @notifyParent="mySelection"></ComboBox6>
               <!-- 子组件4把选择的学院的索引发送给父组件 父组件再发送给子组件5 -->
               <hr>
             </form>
-            <Button1 :msg="msg" @submitSearch="submit"></Button1>
+            <Button1 :msg="msg[0]" @submitSearch="submit"></Button1>
           </div>
         </div>
       </div><!-- widget-box -->
-      <template v-if="ok">
-        <PlanProjectPage></PlanProjectPage>
-      </template>
     </div><!-- page-content-area -->
-    <!--
-    <router-link to="/ProjectPage/PlanProjectPage"><div class="router-link">PlanProjectPage</div></router-link>
-    <router-view/>
-    -->
   </div>
 </template>
 
@@ -46,37 +39,46 @@ import ComboBox6 from '../small/ComboBox6'
 import Button1 from '../small/Button1'
 import PlanProjectPage from './PlanProjectPage'
 import $ from 'jquery'
+import R from '../../router/index.js'
 export default {
   name: 'ProjectPage',
   components: { ComboBox3, ComboBox4, ComboBox5, ComboBox6, Button1, PlanProjectPage },
   data () {
     return {
-      msg: '搜索',
+      msg: ['搜索', '提交'],
       which_department: '0',
-      ok: false
+      ok: false,
+      myOption: 'plan_personal'
     }
   },
   methods: {
     departmentSelection (param) {
       console.log('param:', param)
       this.which_department = param
+      console.log('which_department:', this.which_department)
+    },
+    mySelection (param) {
+      this.myOption = param
     },
     submit () {
       this.ok = true
-      let toSubmit = [
-        this.$refs.input8.selected,
-        this.$refs.input9.selected,
-        this.$refs.input10.selected,
-        this.$refs.input11.selected
-      ]
+      let URL = ''
+      let display = this.myOption === 'plan_personal'
+      if (this.myOption === 'plan_personal') {
+        URL = 'http://localhost:8080/ProjectPage/projectQuery/' + encodeURI(JSON.stringify(this.which_department))
+      } else {
+        URL = 'http://localhost:8080/ProjectPage/showProject'
+      }
       $.ajax({
         type: 'GET',
-        url: 'EnrollSystem/projectQuery',
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        url: URL,
         dataType: 'json',
-        data: { toSubmit },
-        success: function (result) {
-          sessionStorage.obj = JSON.stringify(result) // save data
-          window.open(window.location.origin + '/ProjectResultPage', '_self')
+        success: (result) => {
+          // 跳到PlanProjectPage
+          R.push({ path: R.options.routes[2].children[1].path, query: { param: result, display: display } })
         },
         error: function () {
           alert('error')

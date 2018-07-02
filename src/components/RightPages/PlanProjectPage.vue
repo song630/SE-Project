@@ -1,8 +1,6 @@
 <template>
-  <!--
   <div class="page-content">
     <div class="page-content-area">
-    -->
       <div class="widget-box">
         <div class="widget-header">
           <h4 class="widget-title">
@@ -12,87 +10,74 @@
 
         <div class="widget-body">
           <div class="widget-content">
-            <div class="table-style-1" id="table1">
-              <tr>
-                <th>课程号</th>
-                <th>课程名称</th>
-                <th>课程类别</th>
-                <th>学分</th>
-                <th>学期</th>
-                <th>选择</th> <!-- 勾选框 -->
-              </tr>
-              <tr v-for="(item, iter) in queryResults" :key="iter">
-                <td>{{ item.index.courseID }}</td>
-                <td><a :href=item.index.courseInfoLink>{{ item.index.courseTitle }}</a></td>
-                <td>{{ item.index.courseType }}</td>
-                <td>{{ item.index.credits }}</td>
-                <td>{{ item.index.sem }}</td>
-                <td>
+            <el-table :data="queryResults">
+              <el-table-column prop="courseID" label="课程号">
+              </el-table-column>
+              <el-table-column label="课程名称">
+                <template slot-scope="scope">
+                  <el-button type="text" @click="courseInfoRequest(scope.row)">
+                    {{ scope.row.courseTitle }}
+                  </el-button>
+                </template>
+              </el-table-column>
+              <el-table-column prop="courseType" label="课程类别">
+              </el-table-column>
+              <el-table-column prop="credits" label="学分">
+              </el-table-column>
+              <el-table-column prop="sem" label="学期">
+              </el-table-column>
+              <el-table-column label="选择" v-if="this.$route.query.display">
+                <template slot-scope="scope">
                   <div class="check-box">
-                    <input type="checkbox" :id="iter" :value="item.index.courseID" v-model="ticked">
-                    <label :for="iter"></label>
+                    <input type="checkbox" :value="scope.row.courseID" v-model="ticked">
                   </div>
-                </td>
-              </tr>
-
-            </div>
+                </template>
+              </el-table-column>
+            </el-table>
             <hr>
-            <Button1 :msg="msg" @submitSearch="submit"></Button1>
+            <el-button @click="submit">提交</el-button>
           </div>
         </div>
       </div>
-<!--
     </div>
-  </div>-->
+  </div>
 </template>
 
 <script>
-import Button1 from '../small/Button1'
 import $ from 'jquery'
 export default {
   name: 'PlanProjectPage',
-  components: { Button1 },
-  data () { // v-for cannot work if put 'queryResults' in props
+  data () {
     return {
-      msg: '提交',
       ticked: [],
-      queryResults: [
-        {
-          index: {
-            courseID: 21120261,
-            courseTitle: '软件工程',
-            courseInfoLink: 'http://jwbinfosys.zju.edu.cn/html_kc/22188080.html',
-            courseType: '专业必修课',
-            credits: 2.0,
-            sem: 'Spring'
-          }
-        },
-        {
-          index: {
-            courseID: 21120222,
-            courseTitle: '软件工程',
-            courseInfoLink: 'http://jwbinfosys.zju.edu.cn/html_kc/22188082.html',
-            courseType: '专业选修课',
-            credits: 3.0,
-            sem: 'Summer'
-          }
-        }
-      ]
+      queryResults: []
+    }
+  },
+  mounted: function () {
+    let param = this.$route.query.param
+    for (let i = 0; i < param.length; i++) {
+      this.queryResults.push({
+        courseID: param[i].courseID,
+        courseTitle: param[i].courseTitle,
+        courseType: param[i].courseType,
+        credits: param[i].credits,
+        sem: param[i].sem
+      })
     }
   },
   props: {},
   methods: {
     submit () {
       console.log('选定的课程：', this.ticked)
-      let toSubmit = this.ticked
       $.ajax({
-        type: 'POST',
-        url: 'EnrollSystem/submitPersonalProject',
+        type: 'GET',
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        url: 'http://localhost:8080/ProjectPage/submitPersonalProject/' + encodeURI(JSON.stringify(this.ticked)),
         dataType: 'json',
-        data: { toSubmit },
-        success: function (result) {
-          // alert()
-          sessionStorage.obj = JSON.stringify(result)
+        success: (result) => {
+          alert(result.enrollResult)
         },
         error: function () {
           alert('error')

@@ -13,19 +13,21 @@
               请输入以下信息
             </h3>
             <hr>
-            <form class="form">
-              <InputText :msg="msg[0]"></InputText>
-              <div class="empty"></div>
-              <InputText :msg="msg[1]"></InputText>
-              <hr>
-            </form>
-            <Button1 :msg="msg[2]" @submitSearch="submit"></Button1>
+            <div class="demo-input-suffix">
+              学号：
+              <el-input placeholder="请输入内容" prefix-icon="el-icon-search" v-model="toSubmit.stuID">
+              </el-input>
+            </div>
+            <div class="demo-input-suffix">
+              姓名：
+              <el-input placeholder="请输入内容" v-model="toSubmit.stuName">
+                <i slot="prefix" class="el-input__icon el-icon-search"></i>
+              </el-input>
+            </div>
+            <el-button type="primary" @click="submit">搜索</el-button>
           </div>
         </div>
       </div><!-- widget-box -->
-      <template v-if="ok">
-        <SubStuPage></SubStuPage>
-      </template>
     </div><!-- page-content-area -->
   </div>
 </template>
@@ -34,18 +36,35 @@
 import Button1 from '../small/Button1'
 import InputText from '../small/Text'
 import SubStuPage from './SubStuPage'
+import $ from 'jquery'
+import R from '../../router/index.js'
 export default {
   name: 'QueryStudentPage',
   components: { Button1, InputText, SubStuPage },
   data () {
     return {
-      msg: ['学号', '学生姓名', '搜索'],
-      ok: false
+      toSubmit: {
+        stuID: 0,
+        stuName: ''
+      }
     }
   },
   methods: {
     submit () {
-      this.ok = true
+      $.ajax({
+        type: 'GET',
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        url: 'http://localhost:8080/Admin/studentQuery/' + encodeURI(JSON.stringify(this.toSubmit)),
+        dataType: 'json',
+        success: (result) => {
+          R.push({ path: R.options.routes[7].children[1].path, query: { param: result } })
+        },
+        error: function () {
+          alert('error')
+        }
+      })
     }
   }
 }

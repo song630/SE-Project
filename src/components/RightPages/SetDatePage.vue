@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import Calendar from '../small/Calendar'
 import Button1 from '../small/Button1'
 export default {
@@ -50,6 +51,14 @@ export default {
   },
   methods: {
     submit () {
+      let submit = {
+        firstBegin: (this.$refs.c1.cur_year[0] + '') + (this.$refs.c1.cur_month[0] + '') + (this.$refs.c1.cur_day[0] + ''),
+        firstEnd: (this.$refs.c1.cur_year[1] + '') + (this.$refs.c1.cur_month[1] + '') + (this.$refs.c1.cur_day[1] + ''),
+        secondBegin: (this.$refs.c2.cur_year[0] + '') + (this.$refs.c2.cur_month[0] + '') + (this.$refs.c2.cur_day[0] + ''),
+        secondEnd: (this.$refs.c2.cur_year[1] + '') + (this.$refs.c2.cur_month[1] + '') + (this.$refs.c2.cur_day[1] + ''),
+        dropBegin: (this.$refs.c3.cur_year[0] + '') + (this.$refs.c3.cur_month[0] + '') + (this.$refs.c3.cur_day[0] + ''),
+        dropEnd: (this.$refs.c3.cur_year[1] + '') + (this.$refs.c3.cur_month[1] + '') + (this.$refs.c3.cur_day[1] + '')
+      }
       let toSubmit = [
         [this.$refs.c1.cur_year,
           this.$refs.c1.cur_month,
@@ -71,6 +80,20 @@ export default {
         return
       }
       console.log('to submit:', toSubmit)
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/Time/enrollSetting/' + encodeURI(JSON.stringify(submit)),
+        dataType: 'json',
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        success: (result) => {
+          alert('success')
+        },
+        error: function () {
+          alert('error')
+        }
+      })
     }
   }
 }

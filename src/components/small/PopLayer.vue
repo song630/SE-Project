@@ -1,7 +1,6 @@
 <template>
   <div>
     <Button1 :msg="msg[0]" class="click-pop"></Button1>
-    <!--遮罩层-->
     <div class="pop-background"></div>
     <!--弹出框-->
     <div class="pop">
@@ -16,6 +15,7 @@
         <button class="pop-cancel">取消</button>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -24,13 +24,14 @@ import Button1 from '../small/Button1'
 import InputText from '../small/Text'
 import $ from 'jquery'
 $(document).ready(function () {
-  $('.pop-cancel, .pop-ok').click(function () {
-    $('.pop-background, .pop').fadeOut(300)
+  $('.pop-ok, .pop-cancel').click(function () {
+    $('.pop-background,.pop').fadeOut(300)
   })
   $('.click-pop').click(function () {
-    $('.pop-background, .pop').fadeIn(300)
+    $('.pop-background,.pop').fadeIn(300)
   })
 })
+
 export default {
   name: 'PopLayer',
   components: { Button1, InputText },

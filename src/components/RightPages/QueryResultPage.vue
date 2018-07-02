@@ -10,36 +10,34 @@
 
         <div class="widget-body">
           <div class="widget-content">
-            <div class="table-style-1" id="table1">
-              <tr>
-                <th>教师姓名</th>
-                <th>课程号</th>
-                <th>课程名称</th><!-- should be a link -->
-                <th>课程类别</th>
-                <th>学分</th>
-                <th>学期</th>
-                <th>上课时间</th>
-                <th>上课地点</th>
-                <th>选课</th>
-              </tr>
-              <tr v-for="item in queryResults" :key="item">
-                <td>{{ item.index.teacherName }}</td>
-                <td>{{ item.index.classID }}</td>
-                <td><button class="enroll-button" @click="courseInfoRequest(item.index)">
-                  {{ item.index.courseTitle }}
-                </button>
-                </td>
-                <td>{{ item.index.courseType }}</td>
-                <td>{{ item.index.credits }}</td>
-                <td>{{ item.index.sem }}</td>
-                <td>{{ item.index.classTime }}</td>
-                <td>{{ item.index.classLocation }}</td>
-                <td>
-                  <button class="enroll-button" @click="enrollRequest(item.index)">转入选课</button>
-                </td>
-              </tr>
-              <!-- :key相当于是索引的作用，提高循环性能 -->
-            </div>
+            <el-table :data="queryResults">
+              <el-table-column prop="teacherName" label="教师姓名">
+              </el-table-column>
+              <el-table-column prop="classID" label="课程号">
+              </el-table-column>
+              <el-table-column label="课程名称">
+                <template slot-scope="scope">
+                  <el-button type="text" @click="courseInfoRequest(scope.row)">
+                    {{ scope.row.courseTitle }}
+                  </el-button>
+                </template>
+              </el-table-column>
+              <el-table-column prop="courseType" label="课程类别">
+              </el-table-column>
+              <el-table-column prop="credits" label="学分">
+              </el-table-column>
+              <el-table-column prop="sem" label="学期">
+              </el-table-column>
+              <el-table-column prop="classTime" label="上课时间">
+              </el-table-column>
+              <el-table-column prop="classLocation" label="上课地点">
+              </el-table-column>
+              <el-table-column label="选课">
+                <template slot-scope="scope">
+                  <el-button type="primary" @click="enrollRequest(scope.row)">选课</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
           </div>
         </div>
       </div>
@@ -49,63 +47,48 @@
 
 <script>
 import $ from 'jquery'
+import R from '../../router/index.js'
 export default {
   name: 'QueryResultPage',
-  data () { // v-for cannot work if put 'queryResults' in props
+  data () {
     return {
-      queryResults: [
-        {
-          index: {
-            teacherName: 'LYS',
-            classID: 21120261,
-            courseTitle: '软件工程',
-            courseInfoLink: 'http://jwbinfosys.zju.edu.cn/html_kc/22188080.html',
-            courseType: '专业必修课',
-            credits: 2.0,
-            sem: 'Spring',
-            classTime: 'Mon-1,2',
-            classLocation: '曹光彪-201'
-          }
-        },
-        {
-          index: {
-            teacherName: 'LYS',
-            classID: 21120222,
-            courseTitle: '软件工程',
-            courseInfoLink: 'http://jwbinfosys.zju.edu.cn/html_kc/22188082.html',
-            courseType: '专业选修课',
-            credits: 3.0,
-            sem: 'Summer',
-            classTime: 'Feb-1,2',
-            classLocation: '曹光彪-301'
-          }
-        }
-      ]
+      queryResults: []
     }
   },
-  props: {},
+  mounted: function () {
+    let param = this.$route.query.param
+    for (let i = 0; i < param.length; i++) {
+      this.queryResults.push({
+        teacherName: param[i].teacherName,
+        classID: param[i].classID,
+        courseTitle: param[i].courseTitle,
+        courseType: param[i].courseType,
+        credits: param[i].credits,
+        sem: param[i].sem,
+        classTime: param[i].classTime,
+        classLocation: param[i].classLocation
+      })
+    }
+  },
   methods: {
-    enrollRequest (info) { // info: item.index, 包含课程的名称ID等信息
-      window.open(window.location.origin + '/#EnrollPage')
+    enrollRequest (info) { // info: 包含课程的名称ID等信息
       $.ajax({
         type: 'GET',
-        url: 'EnrollSystem/classEnroll',
+        url: 'http://localhost:8080/ClassSelect/newPage/' + encodeURI(JSON.stringify(info.courseTitle)),
         dataType: 'json',
-        data: { info },
-        success: function (result) {
-          // 发起转入选课的请求后要返回两类结果
-          // 1.course的metadata信息
-          // 2.所有可选的class列表
-          sessionStorage.obj = JSON.stringify(result)
-          window.open(window.location.origin + '/QueryResultPage/EnrollPage', '_self')
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        success: (result) => {
+          // 转入勾选3项的页面
+          R.push({ path: R.options.routes[3].children[1].path, query: { param: result } })
         },
         error: function () {
           alert('error')
         }
       })
     },
-    courseInfoRequest (info) { // info: item.index, 包含课程的名称ID等信息
-      window.open(window.location.origin + '/#CourseInfoPage')
+    courseInfoRequest (info) { // info: 包含课程的名称ID等信息
     }
   }
 }

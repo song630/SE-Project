@@ -1,7 +1,7 @@
 <template>
   <div class="form-group">
     <label class="label-combo-box" for="combo-box1">关键字类型</label>
-    <select class="combo-box" id="combo-box1" v-model="selected" @change="foo">
+    <select class="combo-box" id="combo-box1" v-model="selected">
       <option selected>-----</option>
       <option value="course name">课程名称</option>
       <option value="id">课程代码</option>
@@ -18,11 +18,7 @@
 export default {
   name: 'ComboBox1',
   props: {},
-  methods: {
-    foo () {
-      alert(this.selected)
-    }
-  },
+  methods: {},
   data () {
     return { selected: '' }
   }

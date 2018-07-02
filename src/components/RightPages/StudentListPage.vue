@@ -1,142 +1,154 @@
 <template>
-  <div class="page-content">
-    <div class="page-content-area">
-      <div class="widget-box">
-        <div class="widget-header">
-          <h4 class="widget-title">
-            选课学生列表
-          </h4>
-        </div>
-
-        <div class="widget-body">
-          <div class="widget-content">
-            <div class="separate-header">
-              教师姓名：{{ metadata.teacherName }} 课程号：{{ metadata.classID }}
-              课程名称：{{ metadata.courseName }} 课程类别：{{ metadata.courseType }}
-              学分：{{ metadata.credits }} 学期：{{ metadata.sem }}
-              课程时间：{{ metadata.classTime }} 课程地点：{{ metadata.classLocation }}
-            </div>
-            <div class="table-style-1" id="table1">
-              <tr>
-                <th>学生姓名</th>
-                <th>学号</th>
-                <th>学院</th>
-                <th>专业</th>
-                <th>年级</th>
-                <th>删除学生</th>
-              </tr>
-              <tr v-for="(item, iter) in firstStudentList" :key="iter">
-                <td>{{ item.index.stuName }}</td>
-                <td>{{ item.index.stuID }}</td>
-                <td>{{ item.index.department }}</td>
-                <td>{{ item.index.major }}</td>
-                <td>{{ item.index.grade }}</td>
-                <td>
-                  <button @click="deleteStudent(item.index, iter)" class="delete-button">删除学生
-                  </button>
-                </td><!-- 删除初选学生 -->
-              </tr>
-            </div>
-            <!-- ======================================================================== -->
-            <div class="separate-header">补选学生列表</div>
-            <div class="table-style-1" id="table2">
-              <tr>
-                <th>学生姓名</th>
-                <th>学号</th>
-                <th>学院</th>
-                <th>专业</th>
-                <th>年级</th>
-                <th>确认补选</th>
-                <th>拒绝补选</th>
-              </tr>
-              <tr v-for="(item, iter) in secondStudentList" :key="iter">
-                <td>{{ item.index.stuName }}</td>
-                <td>{{ item.index.stuID }}</td>
-                <td>{{ item.index.department }}</td>
-                <td>{{ item.index.major }}</td>
-                <td>{{ item.index.grade }}</td>
-                <td><button @click="acceptStudent(item.index, iter)" class="accept-button">同意补选</button></td>
-                <td><button @click="rejectStudent(item.index, iter)" class="reject-button">拒绝补选</button></td>
-              </tr>
-            </div>
-
-            <hr>
-            <PopLayer></PopLayer>
-          </div><!-- widget-content -->
-        </div>
-      </div>
+  <div>
+    <div class="separate-header">
+      教师姓名：{{ metadata.teacherName }} 课程号：{{ metadata.classID }}
+      课程名称：{{ metadata.courseName }} 课程类别：{{ metadata.courseType }}
+      学分：{{ metadata.credits }} 学期：{{ metadata.sem }}
+      课程时间：{{ metadata.classTime }} 课程地点：{{ metadata.classLocation }}
     </div>
+    <el-table :data="firstStudentList">
+      <el-table-column prop="stuName" label="学生姓名">
+      </el-table-column>
+      <el-table-column prop="stuID" label="学号">
+      </el-table-column>
+      <el-table-column prop="department" label="学院">
+      </el-table-column>
+      <el-table-column prop="major" label="专业">
+      </el-table-column>
+      <el-table-column prop="grade" label="年级">
+      </el-table-column>
+      <el-table-column label="删除学生">
+        <template slot-scope="scope">
+          <button @click="deleteStudent(scope.row, scope.$index)" class="delete-button">删除学生</button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!-- ======================================================================== -->
+    <!--
+    <div class="separate-header">补选学生列表</div>
+    <el-table :data="secondStudentList">
+      <el-table-column prop="stuName" label="学生姓名">
+      </el-table-column>
+      <el-table-column prop="stuID" label="学号">
+      </el-table-column>
+      <el-table-column prop="department" label="学院">
+      </el-table-column>
+      <el-table-column prop="major" label="专业">
+      </el-table-column>
+      <el-table-column prop="grade" label="年级">
+      </el-table-column>
+      <el-table-column label="确认补选">
+        <template slot-scope="scope">
+          <button @click="acceptStudent(scope.row, scope.$index)" class="accept-button">同意</button>
+        </template>
+      </el-table-column>
+      <el-table-column label="拒绝补选">
+        <template slot-scope="scope">
+          <button @click="rejectStudent(scope.row, scope.$index)" class="reject-button">拒绝</button>
+        </template>
+      </el-table-column>
+    </el-table>
+    -->
   </div>
 </template>
 
 <script>
 import PopLayer from '../small/PopLayer'
+import $ from 'jquery'
 export default {
   name: 'StudentListPage',
   components: { PopLayer },
   methods: {
-    deleteStudent (stuInfo, index) {
-      console.log('删除学生', stuInfo, index)
+    deleteStudent (info, index) {
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/Admin/delStudent/' + encodeURI(JSON.stringify(this.metadata.classID)) + '/' + encodeURI(JSON.stringify(info.stuID)),
+        dataType: 'json',
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        success: (result) => {
+          this.firstStudentList.splice(index, 1)
+        },
+        error: function () {
+          alert('error')
+        }
+      })
     },
-    acceptStudent (stuInfo, index) {
-      console.log('同意补选', stuInfo, index)
+    acceptStudent (info, index) {
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/Admin/acceptSecond/' + encodeURI(JSON.stringify(this.metadata.classID)) + '/' + encodeURI(JSON.stringify(info.stuID)),
+        dataType: 'json',
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        success: (result) => {
+          // this.firstStudentList.push(this.secondStudentList[index])
+          // this.secondStudentList.splice(index, 1)
+        },
+        error: function () {
+          alert('error')
+        }
+      })
     },
-    rejectStudent (stuInfo, index) {
-      console.log('拒绝补选', stuInfo, index)
+    rejectStudent (info, index) {
+      $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/Admin/rejectSecond/' + encodeURI(JSON.stringify(this.metadata.classID)) + '/' + encodeURI(JSON.stringify(info.stuID)),
+        dataType: 'json',
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        success: (result) => {
+          // this.secondStudentList.splice(index, 1)
+        },
+        error: function () {
+          alert('error')
+        }
+      })
     }
+  },
+  mounted: function () {
+    let param = this.$route.query.param
+    this.metadata = {
+      teacherName: param.teacherName,
+      classID: param.classID,
+      courseName: param.courseName,
+      courseType: param.courseType,
+      credits: param.credits,
+      sem: param.sem,
+      classTime: param.classTime,
+      classLocation: param.classLocation
+    }
+    let param1 = this.$route.query.param.stuList
+    // let param2 = this.$route.query.param.secondStudentList
+    for (let i = 0; i < param1.length; i++) {
+      this.firstStudentList.push({
+        stuName: param1[i].stuName,
+        stuID: param1[i].stuID,
+        department: param1[i].department,
+        major: param1[i].major,
+        grade: param1[i].grade
+      })
+    }
+    /*
+    for (let i = 0; i < param2.length; i++) {
+      this.secondStudentList.push({
+        stuName: param2[i].stuName,
+        stuID: param2[i].stuID,
+        department: param2[i].department,
+        major: param2[i].major,
+        grade: param2[i].grade
+      })
+    }
+    */
   },
   data () {
     return {
-      metadata: { // 基本课程信息
-        teacherName: '刘玉生',
-        classID: 21120261,
-        courseName: '软件工程',
-        courseType: '专业必修课',
-        credits: 3.5,
-        sem: '春夏学期',
-        classTime: 'Mon-1,2',
-        classLocation: '曹光彪-201'
-      },
-      firstStudentList: [
-        {
-          index: {
-            stuName: 'AAA',
-            stuID: 3150100000,
-            department: 'CS',
-            major: 'CS',
-            grade: 2015
-          }
-        },
-        {
-          index: {
-            stuName: 'BBB',
-            stuID: 3150100369,
-            department: 'EE',
-            major: 'EE',
-            grade: 2015
-          }
-        }
-      ],
-      secondStudentList: [
-        {
-          index: {
-            stuName: 'CCC',
-            stuID: 3150100001,
-            department: 'CS',
-            major: 'CS',
-            grade: 2014
-          }
-        },
-        {
-          index: {
-            stuName: 'DDD',
-            stuID: 3150100111,
-            department: 'EE',
-            major: 'EE',
-            grade: 2016
-          }
-        }
-      ]
+      metadata: null,
+      firstStudentList: []
+      // secondStudentList: []
     }
   }
 }

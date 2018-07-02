@@ -1,57 +1,72 @@
 <template>
-  <div class="hello">
-    <img src="../assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-      <br>
-      <li><a href="http://vuejs-templates.github.io/webpack/" target="_blank">Docs for This Template</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-    <div class="btn-group" role="group" aria-label="...">
-      <button type="button" class="btn btn-default">Left</button>
-      <button type="button" class="btn btn-default">Middle</button>
-      <button type="button" class="btn btn-default">Right</button>
-    </div>
-    <div id="cc">cc</div>
-  </div>
+  <el-container style="height: 500px; border: 1px solid #eee">
+    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+      <el-menu>
+        <el-submenu index="1">
+          <template slot="title"><i class="el-icon-message"></i>选课</template>
+          <el-menu-item-group>
+            <el-menu-item index="1-1" @click="$router.push($router.options.routes[1].children[0].path)">课程搜索</el-menu-item>
+            <el-menu-item index="1-2" @click="$router.push($router.options.routes[3].children[0].path)">选课</el-menu-item>
+            <el-menu-item index="1-3" @click="$router.push($router.options.routes[8].children[0].path)">补选</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title"><i class="el-icon-menu"></i>培养方案</template>
+          <el-menu-item-group>
+            <el-menu-item index="2-1" @click="$router.push($router.options.routes[2].children[0].path)">制定培养方案</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title"><i class="el-icon-setting"></i>选课管理</template>
+          <el-menu-item-group>
+            <el-menu-item index="3-1" @click="$router.push($router.options.routes[5].children[0].path)">设置选课时间</el-menu-item>
+            <el-menu-item index="3-2" @click="$router.push($router.options.routes[9].children[0].path)">查看课程</el-menu-item>
+            <el-menu-item index="3-3" @click="$router.push($router.options.routes[7].children[0].path)">查找学生</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+      </el-menu>
+    </el-aside>
+
+    <el-container>
+      <el-header style="text-align: right; font-size: 12px">
+        <el-button type="text" @click="$router.push($router.options.routes[0].children[0].path)" style="float: left; margin-top: 10px;">
+          首页
+        </el-button>
+        <el-dropdown>
+          <i class="el-icon-setting" style="margin-right: 15px"></i>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>查看</el-dropdown-item>
+            <el-dropdown-item>新增</el-dropdown-item>
+            <el-dropdown-item>删除</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <span>user01</span>
+      </el-header>
+
+      <el-main>
+        <router-view/>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
 export default {
   name: 'HelloWorld',
   data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+    return {}
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
+.el-header {
+  background-color: #B3C0D1;
+  color: #333;
+  line-height: 60px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+.el-aside {
+  color: #333;
 }
 </style>

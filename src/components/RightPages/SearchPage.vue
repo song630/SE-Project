@@ -17,18 +17,17 @@
 
             <form class="form">
               <ComboBox1 ref="input1"></ComboBox1>
-              <ComboBox2 @notifyParent="fromChild" ref="input2"></ComboBox2>
+              <ComboBox2 ref="input2"></ComboBox2>
               <InputText :msg="msg[0]" ref="input3"></InputText>
               <hr>
-              <AndOr @notifyParent="fromChild" ref="input4"></AndOr>
+              <AndOr ref="input4"></AndOr>
               <hr>
-              <ComboBox1 @notifyParent="fromChild" ref="input5"></ComboBox1>
-              <ComboBox2 @notifyParent="fromChild" ref="input6"></ComboBox2>
+              <ComboBox1 ref="input5"></ComboBox1>
+              <ComboBox2 ref="input6"></ComboBox2>
               <InputText :msg="msg[0]" ref="input7"></InputText>
               <hr>
             </form>
             <Button1 :msg="msg[1]" @submitSearch="submit"></Button1>
-            <Pagination></Pagination>
           </div>
         </div>
       </div>
@@ -42,8 +41,8 @@ import ComboBox2 from '../small/ComboBox2'
 import AndOr from '../small/AndOr'
 import InputText from '../small/Text'
 import Button1 from '../small/Button1'
-import Pagination from '../small/Pagination'
 import $ from 'jquery'
+import R from '../../router/index.js'
 export default {
   name: 'SearchPage',
   props: {
@@ -52,31 +51,28 @@ export default {
   data () {
     return { msg: ['输入关键字', '搜索'] }
   },
-  components: { ComboBox1, ComboBox2, AndOr, InputText, Button1, Pagination },
+  components: { ComboBox1, ComboBox2, AndOr, InputText, Button1 },
   methods: {
-    fromChild (param) {
-      alert(param)
-    },
     submit () {
-      let toSubmit = [
-        this.$refs.input1.selected,
-        this.$refs.input2.selected,
-        this.$refs.input3.input_value,
-        this.$refs.input4.picked,
-        this.$refs.input5.selected,
-        this.$refs.input6.selected,
-        this.$refs.input7.input_value
-      ]
-      window.open(window.location.origin + '/#QueryResultPage')
+      let toSubmit = {
+        type1: this.$refs.input1.selected,
+        option1: this.$refs.input2.selected,
+        content1: this.$refs.input3.input_value,
+        and_or: this.$refs.input4.picked,
+        type2: this.$refs.input5.selected,
+        option2: this.$refs.input6.selected,
+        content2: this.$refs.input7.input_value
+      }
       $.ajax({
         type: 'GET',
-        url: 'EnrollSystem/classQuery', /* call method classQuery() in back-end */
-        dataType: 'json', /* the type of data returned by server */
-        data: { toSubmit }, // send to server
-        success: function (result) { // result: data returned by server
-          sessionStorage.obj = JSON.stringify(result) // save data, or it will lose when another page is loaded
-          window.open(window.location.origin + '/QueryResultPage', '_self') // open a new page using router
-          // _self: 在当前页面加载新页面 不打开新标签页
+        header: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        url: 'http://localhost:8080/ClassSearch/classQuery/' + encodeURI(JSON.stringify(toSubmit)),
+        dataType: 'json',
+        success: function (result) {
+          // 跳转到选课结果
+          R.push({ path: R.options.routes[1].children[1].path, query: { param: result } })
         },
         error: function () {
           alert('error')
